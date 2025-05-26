@@ -49,39 +49,3 @@ y_test_encoded = le.transform(y_test)
 model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss', random_state=42)
 model.fit(X_train, y_train_encoded)
 
-
-### Person C: Evaluation, Visualization & Saving the Model
-
-# Predict on test set
-y_pred = model.predict(X_test)
-
-# Evaluation metrics
-ConfusionMatrix = confusion_matrix(y_test_encoded, y_pred) 
-ClassificationReport = classification_report(y_test_encoded, y_pred, target_names=le.classes_)
-Accuracy = accuracy_score(y_test_encoded, y_pred)
-
-# Display results
-print("Encoded classes:", le.classes_)
-print("Estimator: XGBoost")
-
-print("\nConfusion Matrix:")
-print(ConfusionMatrix)
-
-print("\nClassification Report:")
-print(ClassificationReport)
-
-print(f"\nXGBoost Model Accuracy: {Accuracy:.4f}")
-
-# Visualize feature importance
-xgb.plot_importance(model)
-plt.title("XGBoost Feature Importance")
-plt.tight_layout()
-plt.show()
-
-# Save model and encoder
-joblib.dump(model, "penguin_xgboost_model.pkl")
-joblib.dump(le, "label_encoder.pkl")
-print("Model and LabelEncoder saved successfully.")
-
-
-
