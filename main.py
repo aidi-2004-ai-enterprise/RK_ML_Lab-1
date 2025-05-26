@@ -1,3 +1,5 @@
+### Person A
+
 import pandas as pd
 import seaborn as sns
 
@@ -25,3 +27,44 @@ print("X_train shape:", X_train.shape)
 print("X_test shape :", X_test.shape)
 print("y_train shape:", y_train.shape)
 print("y_test shape :", y_test.shape)
+
+
+### Person B
+
+##XGBoost Model
+
+#Import libraries
+import xgboost as xgb
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
+import joblib
+
+#Encode target variable
+le = LabelEncoder()
+y_train_encoded = le.fit_transform(y_train)
+y_test_encoded = le.transform(y_test)
+
+#Create and train XGBoost classifier (default and fixed parameters)
+model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
+model.fit(X_train, y_train_encoded)
+
+#Predict on test set
+y_pred = model.predict(X_test)
+
+#Print Results
+ConfusionMatrix = confusion_matrix(y_test_encoded, y_pred) 
+ClassificationReport = classification_report(y_test_encoded, y_pred, target_names=le.classes_)
+Accuracy = accuracy_score(y_test_encoded, y_pred) #Just for kicks
+
+print("Estimator: XGBoost")
+print(ConfusionMatrix)
+print(ClassificationReport)
+print(f"XGBoost Model Accuracy: {Accuracy:.4f}")
+
+#Model Feature Importance
+xgb.plot_importance(model)
+plt.show()
+
+#Save Model
+joblib.dump(model, "penguin_xgboost_model.pkl")
