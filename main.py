@@ -49,6 +49,7 @@ y_test_encoded = le.transform(y_test)
 model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss', random_state=42)
 model.fit(X_train, y_train_encoded)
 
+
 ### Person C: Evaluation, Visualization & Saving the Model
 
 # Predict on test set
@@ -81,5 +82,6 @@ plt.show()
 joblib.dump(model, "penguin_xgboost_model.pkl")
 joblib.dump(le, "label_encoder.pkl")
 print("Model and LabelEncoder saved successfully.")
+
 
 
