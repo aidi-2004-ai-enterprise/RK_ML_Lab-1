@@ -82,5 +82,4 @@ joblib.dump(model, "penguin_xgboost_model.pkl")
 joblib.dump(le, "label_encoder.pkl")
 print("Model and LabelEncoder saved successfully.")
 
-print("Person C part pushed successfully.")
 
